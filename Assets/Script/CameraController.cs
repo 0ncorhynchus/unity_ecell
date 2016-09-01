@@ -19,9 +19,7 @@ public class CameraController : MonoBehaviour {
 
         transform.position += (xAxis * dx + yAxis * dy) * speed;
 
-        Vector3 axis = xAxis * y + yAxis * x;
+        Vector3 axis = yAxis * x - xAxis * y;
         transform.RotateAround(transform.position, axis, Vector3.Magnitude(axis) * angleSpeed);
-        // transform.RotateAround(transform.position, yAxis, x * angleSpeed);
-        // transform.RotateAround(transform.position, xAxis, y * angleSpeed);
     }
 }

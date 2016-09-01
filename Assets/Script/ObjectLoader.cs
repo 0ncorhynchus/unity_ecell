@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,6 +7,7 @@ public class ObjectLoader : MonoBehaviour {
 
     public float scale;
     public float radiusScale;
+    public Text stepViewer;
 
     private int index;
     private TargetSystem system;
@@ -33,6 +35,7 @@ public class ObjectLoader : MonoBehaviour {
         if (++index >= system.Count) {
             index = 0;
         }
+        stepViewer.GetComponent<Text>().text = index.ToString();
         not_updated.Clear();
         foreach(ParticleID pid in particles.Keys) {
             not_updated.Add(pid);
