@@ -32,7 +32,7 @@ public class ObjectLoader : MonoBehaviour {
         }
 
         prefab_container = new GameObject("Prefabs");
-        prefab_container.active = false;
+        prefab_container.SetActive(false);
         // prefab_container.GetComponent<MeshRenderer>().enabled = false;
         prefabs = new Dictionary<string, GameObject>();
         particles = new Dictionary<ParticleID, GameObject>();
