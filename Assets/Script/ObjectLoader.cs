@@ -9,14 +9,21 @@ public class ObjectLoader : MonoBehaviour {
     public float radiusScale;
     public Text stepViewer;
 
+    public int updatePerFrame;
+
+    private bool playing;
     private int index;
+    private int frame;
     private TargetSystem system;
     private Dictionary<string, GameObject> prefabs;
     private Dictionary<ParticleID, GameObject> particles;
     private List<ParticleID> not_updated;
 
     void Start() {
+        playing = false;
         index = 0;
+        frame = 0;
+        updatePerFrame = 10;
         try {
             system = new TargetSystem();
         } catch (System.Exception e) {
@@ -25,6 +32,8 @@ public class ObjectLoader : MonoBehaviour {
         prefabs = new Dictionary<string, GameObject>();
         particles = new Dictionary<ParticleID, GameObject>();
         not_updated = new List<ParticleID>();
+
+        stepViewer.GetComponent<Text>().text = index.ToString();
         foreach(Particle particle in system[index]) {
             Vector3 position = Real2Vector(particle.coordinate);
             particles.Add(particle.pid, CreateParticle(position, particle.radius, particle.species));
@@ -32,6 +41,18 @@ public class ObjectLoader : MonoBehaviour {
     }
 
     void Update() {
+        if (Input.GetButtonDown("Play")) {
+            playing = !playing;
+        }
+        if (playing) {
+            if (frame++ == updatePerFrame) {
+                frame = 0;
+                Step();
+            }
+        }
+    }
+
+    void Step() {
         if (++index >= system.Count) {
             index = 0;
         }
