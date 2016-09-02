@@ -15,6 +15,7 @@ public class ObjectLoader : MonoBehaviour {
     private int index;
     private int frame;
     private TargetSystem system;
+    private GameObject prefab_container;
     private Dictionary<string, GameObject> prefabs;
     private Dictionary<ParticleID, GameObject> particles;
     private List<ParticleID> not_updated;
@@ -29,6 +30,10 @@ public class ObjectLoader : MonoBehaviour {
         } catch (System.Exception e) {
             Debug.Log(e.Message);
         }
+
+        prefab_container = new GameObject("Prefabs");
+        prefab_container.active = false;
+        // prefab_container.GetComponent<MeshRenderer>().enabled = false;
         prefabs = new Dictionary<string, GameObject>();
         particles = new Dictionary<ParticleID, GameObject>();
         not_updated = new List<ParticleID>();
@@ -86,6 +91,7 @@ public class ObjectLoader : MonoBehaviour {
             float scaledRadius = radius * scale * radiusScale;
             prefab.GetComponent<Transform>().localScale = new Vector3(scaledRadius, scaledRadius, scaledRadius);
             prefab.GetComponent<Renderer>().material.color = RandomColor();
+            prefab.GetComponent<Transform>().parent = prefab_container.GetComponent<Transform>();
             prefabs.Add(species, prefab);
         }
 
